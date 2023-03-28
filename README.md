@@ -1,6 +1,7 @@
-# reactnative
+# React Native
 Exercícios ReactNative - Desenvolvimento para Dispositivos Móveis II
 Exercícios e Correções - FATEC BS
+Nomes: Vivian da Cunha e Laryssa Lisboa
 
 Exercícios e Correções - FATEC BS
 
