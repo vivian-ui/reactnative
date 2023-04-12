@@ -26,6 +26,7 @@ export default function App(){
     let elemento = document.getElementById("resultado");
     elemento.style.display = "block";
   }
+  
 
   return (
     <View style={styles.container}>
