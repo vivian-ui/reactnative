@@ -1,84 +1,87 @@
 import React, { useState } from 'react';
-import { TextInput, Picker, Switch } from 'react-native';
-import { View, Text } from 'react-native-web';
+import { Text, View, StyleSheet, TextInput, Switch, Button } from 'react-native';
+
+import {styles} from './styles.js';
+
+import {Picker} from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
-import { styles } from './styles';
 
-export default function App() {
-const [nome, setNome] = useState('');
-const [idade, setIdade] = useState(0);
-const [sexo, setSexo] = useState('Selecione');
-const [escolaridade, setEscolaridade] = useState('Selecione');
-const [limite, setLimite] = useState(0);
-const [brasileiro, setBrasileiro] = useState(false);
+export default function App(){
 
-return(
-<View>
-<Text style={styles.titulo}>Abertura de conta</Text>
-<View style={styles.form}>
-<Text style={styles.texto}>Nome: </Text>
-<TextInput
-style={styles.input}
-onPress={(n) => setNome(n)}
-/>
-</View>
-  <View style={styles.form}>
-    <Text style={styles.texto}>Idade: </Text>
-    <TextInput
-      style={styles.input}
-      onPress={(i) => setIdade(i)}
-    />
-  </View>
+  const [nome, setNome] = useState('');
+  const [idade, setIdade] = useState(0);
+  const [sexo, setSexo] = useState('');
+  const [escolaridade, setEscolaridade] = useState('');
+  const [limite, setLimite] = useState(0);
+  const [brasileiro, setBrasileiro] = useState('');
 
-  <View style={styles.form}>
-    <Text style={styles.texto}>Sexo: </Text>
-    <Picker
-      style={styles.selecao}
-      selectedValue={sexo}
-      onValueChange={(itemValue) => setSexo(itemValue)}
-    >
-      <Picker.Item value={''} label='Selecione'/>
-      <Picker.Item value={"Masculino"} label="Masculino"/>
-      <Picker.Item value={"Feminino"} label="Feminino"/>
-    </Picker>
-  </View>
+  function enviar(){
+    setNome(nome);
+    setIdade(idade);
+    setSexo(sexo);
+    setEscolaridade(escolaridade);
+    setLimite(limite);
+    setBrasileiro(brasileiro);
 
-  <View style={styles.form}>
-    <Text style={styles.texto}>Escolaridade: </Text>
-    <Picker
-      style={styles.selecao}
-      selectedValue={escolaridade}
-      onValueChange={(itemValue) => setEscolaridade(itemValue)}
-    >
-      <Picker.Item value={''} label='Selecione'/>
-      <Picker.Item value={"Ensino Fundamental Incompleto"} label="Ensino Fundamental Incompleto"/>
-      <Picker.Item value={"Ensino Fundamental Completo"} label="Ensino Fundamental Completo"/>
-      <Picker.Item value={"Ensino Médio Incompleto"} label="Ensino Médio Incompleto"/>
-      <Picker.Item value={"Ensino Médio Completo"} label="Ensino Médio Completo"/>
-      <Picker.Item value={"Ensino Superior Incompleto"} label="Ensino Médio Incompleto"/>
-      <Picker.Item value={"Ensino Superior Completo"} label="Ensino Médio Completo"/>
-    </Picker>
-  </View>
+    let elemento = document.getElementById("resultado");
+    elemento.style.display = "block";
+  }
 
-  <View style={styles.form}>
-    <Text style={styles.texto}>Limite: </Text>
-    <Slider
-      minimumValue={0}
-      maximumValue={100}
-      onValueChange={(value) => setLimite(value)}
-    />
-  </View>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.titulo}>Abertura de Conta</Text>
 
-  <View>
-    <Text style={styles.texto}>Brasileiro: </Text>
-    <Switch 
-      value={brasileiro}
-      onValueChange={ (valorSwitch) => setBrasileiro(valorSwitch)}
-    />
-    <Text style={{fontSize:30}}>
-      {(brasileiro) ? "Sim" : "Não"}
-    </Text>
-  </View>
-</View>
-)
+      <Text style={styles.label}>Nome:</Text>
+      <TextInput style={styles.inputs} placeholder="Digite seu nome"  onChangeText={(value) => setNome(value)} value={nome}></TextInput>
+
+      <Text style={styles.label}>Idade:</Text>
+      <TextInput style={styles.inputs} placeholder="Digite sua idade: " onChangeText={(value) =>setIdade(value)}></TextInput>
+
+      <Text style={styles.label}>Sexo:</Text>
+      <Picker selectedValue={sexo} style={styles.inputs} onValueChange={(value, index) => setSexo(value)}>
+        <Picker.Item key={1} value={""} label="Selecione: " />
+        <Picker.Item key={2} value={"Feminino"} label="Feminino"/>
+        <Picker.Item key={3} value={"Masculino"} label="Masculino"/>
+        <Picker.Item key={4} value={"Outro"} label="Outro" />
+      </Picker>
+
+      <Text style={styles.label}>Escolaridade:</Text>
+      <Picker style={styles.inputs} onValueChange={(value, index) => setEscolaridade(value)}>
+        <Picker.Item key={1} value={""} label="Selecione: " />
+        <Picker.Item key={2} value={"Ensino Médio"} label="Ensino Médio" />
+        <Picker.Item key={3} value={"Graduação"} label="Graduação" />
+        <Picker.Item key={4} value={"Pós-Graduação"} label="Pós-Graduação" />
+        <Picker.Item key={5} value={"Doutorado"} label="Doutorado" />
+        <Picker.Item key={6} value={"Mestrado"} label="Mestrado" />
+      </Picker>
+
+      <Text style={styles.label}>Limite:</Text>
+      <Slider style={styles.inputs} minimumValue={0} maximumValue={10} onValueChange={(value) => setLimite(value)} value={limite.toFixed(2)}/>
+      <Text style={styles.legend}>{limite.toFixed(2)}</Text>
+
+      <Text style={styles.label}>Brasileiro:</Text>
+      <Switch style={styles.switchs} value={brasileiro} onValueChange={ (value) => setBrasileiro(value)}/>
+      <Text>{(brasileiro) ? "Sim" : "Não"}</Text>
+
+      <View style={styles.button}>
+        <Button title="Enviar" onPress={enviar} color="#32CD32"></Button>
+      </View>
+
+      <div id="resultado" style={{display: "none"}}>
+          <Text style={styles.titulo}>Dados informados: </Text>
+          <br></br>
+          <Text style={styles.textoResultado}>Nome: {nome}</Text>
+          <br></br>
+          <Text style={styles.textoResultado}>Idade: {idade}</Text>
+          <br></br>
+          <Text style={styles.textoResultado}>Sexo: {sexo}</Text>
+          <br></br>
+          <Text style={styles.textoResultado}>Escolaridade: {escolaridade}</Text>
+          <br></br>
+          <Text style={styles.textoResultado}>Limite: {limite.toFixed(2)}</Text>
+          <br></br>
+          <Text style={styles.textoResultado}>É brasileiro: {(brasileiro) ? "Sim" : "Não"}</Text>
+      </div>
+    </View>
+  );
 }
