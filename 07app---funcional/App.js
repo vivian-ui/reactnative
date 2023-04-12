@@ -64,7 +64,7 @@ export default function App(){
       <Text>{(brasileiro) ? "Sim" : "Não"}</Text>
 
       <View style={styles.button}>
-        <Button title="Enviar" onPress={enviar} color="#32CD32"></Button>
+        <Button title="Enviar" onPress={enviar} color="#123499"></Button>
       </View>
 
       <div id="resultado" style={{display: "none"}}>
